@@ -1,9 +1,19 @@
+import { db } from "../database/db.js";
+
 class BooksController {
-  addBook(req, res) {}
-  getBooks(req, res) {}
-  getBook(req, res) {}
-  updateBook(req, res) {}
-  deleteBook(req, res) {}
+  async addBook(req, res) {}
+  async getBooks(req, res) {
+    try {
+      const books = await db.query("select * from books");
+      res.json(books);
+    } catch (error) {
+      console.log(error);
+      res.send(error.message);
+    }
+  }
+  async getBook(req, res) {}
+  async updateBook(req, res) {}
+  async deleteBook(req, res) {}
 }
 
 export const booksController = new BooksController();
