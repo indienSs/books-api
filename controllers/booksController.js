@@ -4,7 +4,7 @@ class BooksController {
   async addBook(req, res) {}
   async getBooks(req, res) {
     try {
-      const books = await db.query("select * from books");
+      const books = await db.books.findMany({});
       res.json(books);
     } catch (error) {
       console.log(error);
