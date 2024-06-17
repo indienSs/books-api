@@ -4,11 +4,11 @@ class BooksController {
   async addBook(req, res) {}
   async getBooks(req, res) {
     try {
-      const books = await db.books.findMany({});
-      res.json(books);
+      const books = await db.books.findMany();
+      res.status(200).json(books);
     } catch (error) {
       console.log(error);
-      res.send(error.message);
+      res.status(400).send(error.message);
     }
   }
   async getBook(req, res) {}
