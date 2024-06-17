@@ -1,7 +1,7 @@
 class UsersController {
   login(req, res) {}
   register(req, res) {}
-  getUser(req, res) {}
+  getMe(req, res) {}
   updateRole(req, res) {}
 }
 
