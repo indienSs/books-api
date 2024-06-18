@@ -1,10 +1,10 @@
 import express from "express";
-import dotenv from "dotenv";
+import { config } from "dotenv";
 import cors from "cors";
 import { booksRouter } from "./routes/booksRouter.js";
 import { usersRouter } from "./routes/usersRouter.js";
 
-dotenv.config();
+config();
 
 const PORT = process.env.PORT || 8080;
 
