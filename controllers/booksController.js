@@ -22,7 +22,7 @@ class BooksController {
       res.status(200).json(book);
     } catch (error) {
       console.error(error);
-      res.status(error.status || 400).send(error.message);
+      res.status(error.status || 400).json({ message: error.message });
     }
   }
 
