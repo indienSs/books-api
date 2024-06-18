@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import { db } from "../database/db.js";
 
 class BooksController {
@@ -17,10 +18,11 @@ class BooksController {
     try {
       const { id } = req.params;
       const book = await db.books.findUnique({ where: { id: +id } });
+      if (!book) throw createHttpError.NotFound("Book not found");
       res.status(200).json(book);
     } catch (error) {
       console.error(error);
-      res.status(400).send(error.message);
+      res.status(error.status || 400).send(error.message);
     }
   }
 
