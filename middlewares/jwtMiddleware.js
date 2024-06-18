@@ -22,7 +22,7 @@ class JWTMiddleware {
       const token = authorization.replace(/Bearer\s?/, "");
       if (!token) throw createHttpError.Unauthorized("Unauthorized user");
       const user = decodeRegistrationToken(token);
-      if (user.role !== 0) throw createHttpError.NotAcceptable("Access denied");
+      if (user.role !== 0) throw createHttpError.Forbidden("Access denied");
       req.user = user;
       next();
     } catch (error) {

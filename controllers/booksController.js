@@ -2,8 +2,6 @@ import createHttpError from "http-errors";
 import { db } from "../database/db.js";
 
 class BooksController {
-  async addBook(req, res) {}
-
   async getBooks(_, res) {
     try {
       const books = await db.books.findMany();
@@ -26,9 +24,58 @@ class BooksController {
     }
   }
 
-  async updateBook(req, res) {}
+  async addBook(req, res) {
+    try {
+      const { title, author, publicationDate, genres } = req.body;
+      const book = await db.books.create({
+        data: {
+          title,
+          author,
+          publication_date: publicationDate,
+          genres,
+        },
+      });
+      res.status(200).json(book);
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ message: error.message });
+    }
+  }
 
-  async deleteBook(req, res) {}
+  async updateBook(req, res) {
+    try {
+      const { title, author, publicationDate, genres } = req.body;
+      const book = await db.books.update({
+        where: {
+          id: Number(req.params.id),
+        },
+        data: {
+          title,
+          author,
+          publication_date: publicationDate,
+          genres,
+        },
+      });
+      res.status(200).json(book);
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  async deleteBook(req, res) {
+    try {
+      const book = await db.books.delete({
+        where: {
+          id: Number(req.params.id),
+        },
+      });
+      res.status(200).json({ ok: true });
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ message: error.message });
+    }
+  }
 }
 
 export const booksController = new BooksController();
