@@ -15,6 +15,7 @@ class JWTMiddleware {
       res.status(error.status || 400).json({ message: error.message });
     }
   }
+
   validateAdmin(req, res, next) {
     try {
       const { authorization } = req.headers;

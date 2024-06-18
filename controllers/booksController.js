@@ -15,7 +15,7 @@ class BooksController {
   async getBook(req, res) {
     try {
       const { id } = req.params;
-      const book = await db.books.findUnique({ where: { id: +id } });
+      const book = await db.books.findUnique({ where: { id: Number(id) } });
       if (!book) throw createHttpError.NotFound("Book not found");
       res.status(200).json(book);
     } catch (error) {
