@@ -16,15 +16,18 @@ model books {
 }
 
 model users {
-  id            Int      @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   user_name     String
   user_role     Int?
   password_hash String
-  active        Boolean? @default(false)
+  active        Boolean?      @default(false)
+  email         String        @unique
+  verification  verification?
 }
 
 model verification {
   user_id    Int      @id
   token      String
   expired_at DateTime @db.Timestamptz(6)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_verification_user_id")
 }
