@@ -4,13 +4,13 @@ import { ADMIN } from "../constants/userRoles.js";
  * Проверка доступа по битовой маске
  * @param {object} user
  * @param {number} user.user_role
- * @param {number} priority доступ, который нуно проверить
+ * @param {number} access доступ, который нуно проверить
  * @returns {boolean}
  */
-export function checkUserPriority(user, priority) {
+export function checkAccess(user, access) {
   if (user.user_role == null) return false;
   else if (user.user_role === ADMIN) return true;
-  else return !!(user.user_role & priority);
+  else return !!(user.user_role & access);
 }
 
 /**

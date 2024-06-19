@@ -1,6 +1,6 @@
 import createHttpError from "http-errors";
 import { decodeRegistrationToken } from "../utils/jwtCoders.js";
-import { checkAdmin, checkUserPriority } from "../utils/checkUserPriority.js";
+import { checkAdmin, checkAccess } from "../utils/checkAccess.js";
 import { ACCESS_GET_ME } from "../constants/userAccess.js";
 
 class JWTMiddleware {
@@ -10,7 +10,7 @@ class JWTMiddleware {
       if (!authorization) throw createHttpError.Unauthorized("Unauthorized user");
       const user = decodeRegistrationToken(authorization);
       if (!user) throw createHttpError.Unauthorized("Token expired");
-      if (!checkUserPriority(user, ACCESS_GET_ME)) throw createHttpError.Forbidden("Access denied");
+      if (!checkAccess(user, ACCESS_GET_ME)) throw createHttpError.Forbidden("Access denied");
       req.user = user;
       next();
     } catch (error) {
