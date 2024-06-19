@@ -43,10 +43,15 @@ class UsersController {
   }
 
   async getMe(req, res) {
-    const { id } = req.user;
-    const user = await db.users.findUnique({ where: { id: Number(id) } });
-    if (!user) throw createHttpError.NotFound("User not found");
-    res.status(200).json(user);
+    try {
+      const { id } = req.user;
+      const user = await db.users.findUnique({ where: { id: Number(id) } });
+      if (!user) throw createHttpError.NotFound("User not found");
+      res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(error.status || 400).json({ message: error.message });
+    }
   }
 
   async updateRole(req, res) {
