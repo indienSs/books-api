@@ -10,7 +10,6 @@ class UsersController {
       const { username, password, email } = req.body;
       const salt = await bcrypt.genSalt(5);
       const passwordHash = await bcrypt.hash(password, salt);
-
       const newUser = await db.users.create({ data: { user_name: username, password_hash: passwordHash, email } });
       if (!newUser) throw createHttpError.Forbidden();
       res.status(200).json(_.omit(newUser, ["password_hash"]));

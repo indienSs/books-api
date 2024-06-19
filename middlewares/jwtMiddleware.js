@@ -6,9 +6,7 @@ class JWTMiddleware {
     try {
       const { authorization } = req.headers;
       if (!authorization) throw createHttpError.Unauthorized("Unauthorized user");
-      const token = authorization.replace(/Bearer\s?/, "");
-      if (!token) throw createHttpError.Unauthorized("Unauthorized user");
-      req.user = decodeRegistrationToken(token);
+      req.user = decodeRegistrationToken(authorization);
       next();
     } catch (error) {
       console.error(error);
@@ -20,9 +18,7 @@ class JWTMiddleware {
     try {
       const { authorization } = req.headers;
       if (!authorization) throw createHttpError.Unauthorized("Unauthorized user");
-      const token = authorization.replace(/Bearer\s?/, "");
-      if (!token) throw createHttpError.Unauthorized("Unauthorized user");
-      const user = decodeRegistrationToken(token);
+      const user = decodeRegistrationToken(authorization);
       if (user.role !== 0) throw createHttpError.Forbidden("Access denied");
       req.user = user;
       next();
