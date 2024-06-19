@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { db } from "../database/db.js";
 import createHttpError from "http-errors";
 import _ from "lodash";
-import { decodeRegistrationToken, encodeRegistrationToken } from "../utils/jwtCoders.js";
+import { encodeRegistrationToken } from "../utils/jwtCoders.js";
 
 class UsersController {
   async register(req, res) {

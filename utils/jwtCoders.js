@@ -10,6 +10,6 @@ export function encodeRegistrationToken(user) {
 
 export function decodeRegistrationToken(token) {
   const decodedUser = jwt.verify(token, process.env.JWT_KEY);
-  if (differenceInDays(new Date(decodedUser.iat), new Date()) > 0) return null;
+  if (differenceInDays(new Date(decodedUser.exp), new Date()) > 0) return null;
   else return decodedUser;
 }
