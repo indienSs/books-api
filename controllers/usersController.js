@@ -73,13 +73,17 @@ class UsersController {
   async validateRegisterToken(req, res) {
     try {
       const { token } = req.params;
-      const nonActiveUser = await db.users.findFirst({ where: { token } });
+      const nonActiveUser = await db.verification.findFirst({
+        where: {
+          token,
+        },
+      });
       if (!nonActiveUser) throw createHttpError.NotFound("User not found");
       else {
         await Promise.all([
           db.users.update({
             where: {
-              id: Number(nonActiveUser.id),
+              id: nonActiveUser.user_id,
             },
             data: {
               active: true,
@@ -87,7 +91,7 @@ class UsersController {
           }),
           db.verification.delete({
             where: {
-              user_id: Number(nonActiveUser.id),
+              user_id: nonActiveUser.user_id,
             },
           }),
         ]);
