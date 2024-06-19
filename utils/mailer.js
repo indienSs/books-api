@@ -14,13 +14,13 @@ const smtpTransport = nodemailer.createTransport(
 );
 
 /**
+ * Отправка токена верификации на почту пользователя при регистрации
  * @param {string} email
  * @param {string} token
- * @returns {Promise}
  */
 export function sendVerificationEmail(email, token) {
   const link = `http://localhost:8080/users/register/validate/${token}`;
-  return smtpTransport.sendMail({
+  smtpTransport.sendMail({
     to: email,
     subject: "Confirm you email",
     html: `<a href="${link}" target="_blank">Click here to verify</a>`,
