@@ -12,7 +12,7 @@ model books {
   title            String
   author           String
   publication_date DateTime @db.Timestamptz(6)
-  genres           String[]
+  genres           String[] @default([])
 }
 
 model users {
