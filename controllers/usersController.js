@@ -18,8 +18,7 @@ class UsersController {
       else {
         const token = generateRandomString();
         await db.verification.create({ data: { user_id: newUser.id, token, expired_at: addDays(new Date(), 1) } });
-        const email = await sendVerificationEmail(email, token);
-        console.log(email);
+        sendVerificationEmail(email, token);
       }
       res.status(200).json(_.omit(newUser, ["password_hash"]));
     } catch (error) {

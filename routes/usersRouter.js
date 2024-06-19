@@ -15,7 +15,7 @@ export const usersRouter = new Router();
 usersRouter.post("/users/register", loginValidation, registerValidation, errorsValidation, usersController.register);
 usersRouter.post("/users/login", loginValidation, errorsValidation, usersController.login);
 usersRouter.get("/users/me", jwtMiddleware.validate, usersController.getMe);
-usersRouter.post(
+usersRouter.get(
   "/users/register/validate/:token",
   tokenValidation,
   errorsValidation,
