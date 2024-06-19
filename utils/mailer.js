@@ -13,6 +13,11 @@ const smtpTransport = nodemailer.createTransport(
   { from: `Books mailer <${process.env.MAILER_LOGIN}>` }
 );
 
+/**
+ * @param {string} email
+ * @param {string} token
+ * @returns {Promise}
+ */
 export function sendVerificationEmail(email, token) {
   const link = `http://localhost:8080/users/register/validate/${token}`;
   return smtpTransport.sendMail({
