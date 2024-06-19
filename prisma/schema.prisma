@@ -17,7 +17,7 @@ model books {
 
 model users {
   id            Int           @id @default(autoincrement())
-  user_name     String
+  user_name     String        @unique(map: "constraint_name")
   user_role     Int?
   password_hash String
   active        Boolean?      @default(false)

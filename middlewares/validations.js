@@ -19,21 +19,21 @@ export function errorsValidation(req, res, next) {
 }
 
 export const bookValidation = [
-  body("title", "Title missed").isString().notEmpty(),
-  body("author", "Author missed").isString().notEmpty(),
-  body("publicationDate", "PublicationDate missed").isISO8601().notEmpty(),
+  body("title", "title missed").isString().notEmpty(),
+  body("author", "author missed").isString().notEmpty(),
+  body("publicationDate", "publicationDate missed").isISO8601().notEmpty(),
 ];
 
 export const loginValidation = [
-  body("username", "Username missed").isString().notEmpty(),
-  body("password", "Password missed").isString().notEmpty(),
+  body("username", "username missed").isString().notEmpty(),
+  body("password", "password missed, min lenght 6, max length 16").isString().isLength({ min: 6, max: 16 }),
 ];
 
-export const registerValidation = [body("email", "Email missed").isEmail().notEmpty()];
+export const registerValidation = [body("email", "email missed").isEmail().notEmpty()];
 
 export const getMeValidation = [
-  body("role", "Role missed").custom(value => typeof value === "string" || typeof value === "number"),
+  body("role", "role missed").custom(value => typeof value === "string" || typeof value === "number"),
 ];
 
-export const idParamValidation = [param("id", "Incorrect Id").custom(value => !Number.isNaN(+value))];
+export const idParamValidation = [param("id", "Incorrect id").custom(value => !Number.isNaN(+value))];
 export const roleValidation = [body("role", "Incorrect role").custom(value => !Number.isNaN(+value))];
