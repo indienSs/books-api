@@ -20,5 +20,5 @@ export function checkUserPriority(user, priority) {
  * @returns {boolean}
  */
 export function checkAdmin(user) {
-  return user?.user_role === ADMIN;
+  return user.user_role === ADMIN;
 }
