@@ -37,3 +37,4 @@ export const getMeValidation = [
 
 export const idParamValidation = [param("id", "Incorrect id").custom(value => !Number.isNaN(+value))];
 export const roleValidation = [body("role", "Incorrect role").custom(value => !Number.isNaN(+value))];
+export const tokenValidation = [param("token", "Incorrect token").isString().notEmpty()];

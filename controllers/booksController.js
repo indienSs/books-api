@@ -65,7 +65,7 @@ class BooksController {
 
   async deleteBook(req, res) {
     try {
-      const book = await db.books.delete({
+      await db.books.delete({
         where: {
           id: Number(req.params.id),
         },

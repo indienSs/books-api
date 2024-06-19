@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
-import { addMilliseconds, addSeconds, differenceInDays } from "date-fns";
+import { addSeconds, differenceInDays } from "date-fns";
 
 config();
 

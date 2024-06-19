@@ -7,14 +7,20 @@ import {
   loginValidation,
   registerValidation,
   roleValidation,
+  tokenValidation,
 } from "../middlewares/validations.js";
 
 export const usersRouter = new Router();
 
 usersRouter.post("/users/register", loginValidation, registerValidation, errorsValidation, usersController.register);
-usersRouter.get("/users/register/validate", usersController.validateRegisterToken);
 usersRouter.post("/users/login", loginValidation, errorsValidation, usersController.login);
 usersRouter.get("/users/me", jwtMiddleware.validate, usersController.getMe);
+usersRouter.get(
+  "/users/register/validate/:token",
+  tokenValidation,
+  errorsValidation,
+  usersController.validateRegisterToken
+);
 usersRouter.put(
   "/users/:id/role",
   jwtMiddleware.validateAdmin,

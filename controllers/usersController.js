@@ -18,11 +18,13 @@ class UsersController {
       res.status(error.status || 400).json({ message: error.message });
     }
   }
+
   async login(req, res) {
     try {
       const { username, password } = req.body;
       const user = await db.users.findUnique({ where: { user_name: username } });
       if (!user) throw createHttpError.NotFound("User not found");
+      if (!user.active) throw createHttpError.Unauthorized("Confirm you email");
       const isValidPassword = await bcrypt.compare(password, user.password_hash);
       if (!isValidPassword) throw createHttpError.Forbidden("Incorrect password");
       const token = encodeRegistrationToken(user);
@@ -32,12 +34,14 @@ class UsersController {
       res.status(error.status || 400).json({ message: error.message });
     }
   }
+
   async getMe(req, res) {
     const { id } = req.user;
     const user = await db.users.findUnique({ where: { id: Number(id) } });
     if (!user) throw createHttpError.NotFound("User not found");
     res.status(200).json(user);
   }
+
   async updateRole(req, res) {
     try {
       const user = await db.users.update({
@@ -54,7 +58,35 @@ class UsersController {
       res.status(400).json({ message: error.message });
     }
   }
-  async validateRegisterToken(req, res) {}
+
+  async validateRegisterToken(req, res) {
+    try {
+      const { token } = req.params;
+      const nonActiveUser = await db.users.findFirst({ where: { token } });
+      if (!nonActiveUser) throw createHttpError.NotFound("User not found");
+      else {
+        await Promise.all([
+          db.users.update({
+            where: {
+              id: Number(nonActiveUser.id),
+            },
+            data: {
+              active: true,
+            },
+          }),
+          db.verification.delete({
+            where: {
+              user_id: Number(nonActiveUser.id),
+            },
+          }),
+        ]);
+      }
+      res.status(200).json({ ok: true });
+    } catch (error) {
+      console.error(error);
+      res.status(error.status || 400).json({ message: error.message });
+    }
+  }
 }
 
 export const usersController = new UsersController();
