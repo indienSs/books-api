@@ -1,8 +1,5 @@
 import jwt from "jsonwebtoken";
-import { config } from "dotenv";
 import { addSeconds, differenceInDays } from "date-fns";
-
-config();
 
 export function encodeRegistrationToken(user) {
   return jwt.sign({ role: user.user_role, id: user.id }, process.env.JWT_KEY, { expiresIn: "1d", noTimestamp: true });

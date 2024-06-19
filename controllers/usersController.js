@@ -3,6 +3,9 @@ import { db } from "../database/db.js";
 import createHttpError from "http-errors";
 import _ from "lodash";
 import { encodeRegistrationToken } from "../utils/jwtCoders.js";
+import { sendVerificationEmail } from "../utils/mailer.js";
+import { generateRandomString } from "../utils/randomStringGenerator.js";
+import { addDays } from "date-fns";
 
 class UsersController {
   async register(req, res) {
@@ -12,6 +15,14 @@ class UsersController {
       const passwordHash = await bcrypt.hash(password, salt);
       const newUser = await db.users.create({ data: { user_name: username, password_hash: passwordHash, email } });
       if (!newUser) throw createHttpError.Forbidden();
+      else {
+        const token = generateRandomString();
+        const [mail] = await Promise.all([
+          sendVerificationEmail(email, token),
+          db.verification.create({ data: { user_id: newUser.id, token, expired_at: addDays(new Date(), 1) } }),
+        ]);
+        if (!mail) throw createHttpError("Error sending email");
+      }
       res.status(200).json(_.omit(newUser, ["password_hash"]));
     } catch (error) {
       console.error(error);
