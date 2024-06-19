@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
 import { db } from "../database/db.js";
 import createHttpError from "http-errors";
-import _ from "lodash";
 import { encodeRegistrationToken } from "../utils/jwtCoders.js";
 import { sendVerificationEmail } from "../utils/mailer.js";
 import { generateRandomString } from "../utils/randomStringGenerator.js";
@@ -20,7 +19,7 @@ class UsersController {
         await db.verification.create({ data: { user_id: newUser.id, token, expired_at: addDays(new Date(), 1) } });
         sendVerificationEmail(email, token);
       }
-      res.status(200).json(_.omit(newUser, ["password_hash"]));
+      res.status(200).json(newUser);
     } catch (error) {
       console.error(error);
       res.status(error.status || 400).json({ message: error.message });
