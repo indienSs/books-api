@@ -7,6 +7,7 @@ import { generateRandomString } from "../utils/randomStringGenerator.js";
 import { addDays } from "date-fns";
 import { checkAccess, checkAdmin } from "../utils/checkAccess.js";
 import { ACCESS_GET_ME } from "../constants/userAccess.js";
+import _ from "lodash";
 
 class UsersController {
   async register(req, res) {
@@ -60,7 +61,7 @@ class UsersController {
       const user = await db.users.findUnique({ where: { id: Number(id) } });
       if (!user) throw createHttpError.NotFound("User not found");
 
-      res.status(200).json(user);
+      res.status(200).json(_.omit(user, ["password_hash", "active", "user_role"]));
     } catch (error) {
       console.error(error);
       res.status(error.status || 400).json({ message: error.message });
