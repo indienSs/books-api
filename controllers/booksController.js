@@ -1,5 +1,6 @@
 import createHttpError from "http-errors";
 import { db } from "../database/db.js";
+import { checkAdmin } from "../utils/checkAccess.js";
 
 class BooksController {
   async getBooks(_, res) {
@@ -26,6 +27,7 @@ class BooksController {
 
   async addBook(req, res) {
     try {
+      if (!checkAdmin(req.user)) throw createHttpError.Forbidden("Access denied");
       const { title, author, publicationDate, genres } = req.body;
       const book = await db.books.create({
         data: {
@@ -44,6 +46,7 @@ class BooksController {
 
   async updateBook(req, res) {
     try {
+      if (!checkAdmin(req.user)) throw createHttpError.Forbidden("Access denied");
       const { title, author, publicationDate, genres } = req.body;
       const book = await db.books.update({
         where: {
@@ -65,6 +68,7 @@ class BooksController {
 
   async deleteBook(req, res) {
     try {
+      if (!checkAdmin(req.user)) throw createHttpError.Forbidden("Access denied");
       await db.books.delete({
         where: {
           id: Number(req.params.id),

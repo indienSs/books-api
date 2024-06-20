@@ -22,7 +22,7 @@ usersRouter.get(
 );
 usersRouter.put(
   "/users/:id/role",
-  jwtMiddleware.validateAdmin,
+  jwtMiddleware.validate,
   validator.idParamValidation,
   validator.roleValidation,
   validator.errorsValidation,

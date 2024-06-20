@@ -9,14 +9,14 @@ booksRouter.get("/books", booksController.getBooks);
 booksRouter.get("/books/:id", validator.idParamValidation, validator.errorsValidation, booksController.getBook);
 booksRouter.post(
   "/books",
-  jwtMiddleware.validateAdmin,
+  jwtMiddleware.validate,
   validator.bookValidation,
   validator.errorsValidation,
   booksController.addBook
 );
 booksRouter.put(
   "/books/:id",
-  jwtMiddleware.validateAdmin,
+  jwtMiddleware.validate,
   validator.bookValidation,
   validator.idParamValidation,
   validator.errorsValidation,
@@ -24,7 +24,7 @@ booksRouter.put(
 );
 booksRouter.delete(
   "/books/:id",
-  jwtMiddleware.validateAdmin,
+  jwtMiddleware.validate,
   validator.idParamValidation,
   validator.errorsValidation,
   booksController.deleteBook
