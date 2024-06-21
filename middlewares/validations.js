@@ -29,12 +29,11 @@ export const loginValidation = [
   body("password", "password missed, min lenght 6, max length 16").isString().isLength({ min: 6, max: 16 }),
 ];
 
-export const registerValidation = [body("email", "email missed").isEmail().notEmpty()];
-
 export const getMeValidation = [
   body("role", "role missed").custom(value => typeof value === "string" || typeof value === "number"),
 ];
 
+export const tokenValidation = [param("token", "Incorrect token").isString().notEmpty()];
+export const registerValidation = [body("email", "email missed").isEmail().notEmpty()];
 export const idParamValidation = [param("id", "Incorrect id").custom(value => !Number.isNaN(+value))];
 export const roleValidation = [body("role", "Incorrect role").custom(value => !Number.isNaN(+value))];
-export const tokenValidation = [param("token", "Incorrect token").isString().notEmpty()];
