@@ -5,9 +5,9 @@
  */
 export function generateRandomString(length = 16) {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = new Array(length);
+  let result = "";
   for (let i = 0; i < length; i++) {
-    result[i] = characters.charAt(Math.floor(Math.random() * characters.length));
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
-  return result.join("");
+  return result;
 }
