@@ -100,7 +100,7 @@ class UsersController {
 
       if (!nonActiveUser) throw createHttpError.NotFound("User not found");
       else {
-        await Promise.all([
+        await prisma.$transaction([
           db.users.update({
             where: {
               id: nonActiveUser.user_id,
